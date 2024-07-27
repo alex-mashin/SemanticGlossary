@@ -5,6 +5,7 @@ namespace SG;
 use Hooks;
 use MediaWiki\Linker\LinkTarget;
 use SMW\DIWikiPage;
+use SMW\PropertyRegistry;
 
 /**
  * @license GNU GPL v2+
