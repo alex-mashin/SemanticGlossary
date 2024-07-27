@@ -60,9 +60,9 @@ class ElementsCacheBuilder {
 	 *
 	 * @return array
 	 */
-	public function getElements() {
+	public function getElements(): array {
 
-		$ret = array();
+		$ret = [];
 
 		if ( $this->queryResults === null ) {
 			$this->queryResults = $this->store->getQueryResult( $this->buildQuery() )->getResults();
@@ -71,7 +71,7 @@ class ElementsCacheBuilder {
 		// find next line
 		$page = current( $this->queryResults );
 
-		if ( $page && count( $ret ) == 0 ) {
+		if ( $page ) {
 
 			next( $this->queryResults );
 
@@ -103,18 +103,18 @@ class ElementsCacheBuilder {
 		return $ret;
 	}
 
-	private function buildElements( $terms, $definition, $link, $style, $page ) {
+	private function buildElements( array $terms, ?string $definition, ?string $link, ?string $style, $page ): array {
 
-		$ret = array();
+		$ret = [];
 
 		foreach ( $terms as $term ) {
-			$tmp_ret = array(
+			$tmp_ret = [
 				Element::ELEMENT_TERM => $term,
 				Element::ELEMENT_DEFINITION => $definition,
 				Element::ELEMENT_LINK => $link,
 				Element::ELEMENT_STYLE => $style,
 				Element::ELEMENT_SOURCE => $page
-			);
+			];
 
 			$ret[] = $tmp_ret;
 		}
@@ -122,7 +122,7 @@ class ElementsCacheBuilder {
 		return $ret;
 	}
 
-	private function buildQuery() {
+	private function buildQuery(): Query {
 
 		$dataValueFactory = DataValueFactory::getInstance();
 
@@ -180,7 +180,7 @@ class ElementsCacheBuilder {
 		return $query;
 	}
 
-	private function getDefinitionValue( $page ) {
+	private function getDefinitionValue( $page ): ?string {
 
 		$definition  = null;
 
@@ -197,7 +197,7 @@ class ElementsCacheBuilder {
 		return $definition;
 	}
 
-	private function getLinkValue( $page ) {
+	private function getLinkValue( $page ): ?string {
 
 		$link  = null;
 
@@ -211,7 +211,7 @@ class ElementsCacheBuilder {
 		return $link;
 	}
 
-	private function getStyleValue( $page ) {
+	private function getStyleValue( $page ): ?string {
 
 		$style  = null;
 
@@ -225,17 +225,15 @@ class ElementsCacheBuilder {
 		return $style;
 	}
 
-	private function getTerms( $page ) {
+	private function getTerms( $page ): array {
 
-		$collectedTerms = array();
+		$collectedTerms = [];
 
 		$terms = $this->store->getPropertyValues( $page, $this->mDiTerm );
 
-		if ( $terms !== array() ) {
-			foreach ( $terms as $term ) {
-				$this->mDvTerm->setDataItem( $term );
-				$collectedTerms[] = trim( $this->mDvTerm->getShortWikiText() );
-			}
+		foreach ( $terms as $term ) {
+			$this->mDvTerm->setDataItem( $term );
+			$collectedTerms[] = trim( $this->mDvTerm->getShortWikiText() );
 		}
 
 		return $collectedTerms;

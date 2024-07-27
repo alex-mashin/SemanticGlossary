@@ -18,6 +18,6 @@ $autoloader = require $autoloaderClassPath;
 $autoloader->addPsr4( 'SG\\Tests\\', __DIR__ . '/phpunit/Unit' );
 $autoloader->addPsr4( 'SG\\Tests\\Integration\\', __DIR__ . '/phpunit/Integration' );
 
-$autoloader->addClassMap( array(
+$autoloader->addClassMap( [
 	'SG\Maintenance\RebuildGlossaryCache' => __DIR__ . '/../maintenance/rebuildGlossaryCache.php',
-) );
+] );

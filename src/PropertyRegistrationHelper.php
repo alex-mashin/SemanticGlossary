@@ -40,30 +40,30 @@ class PropertyRegistrationHelper {
 	 *
 	 * @return boolean
 	 */
-	public function registerProperties() {
+	public function registerProperties(): bool {
 
-		$propertyDefinitions = array(
-			self::SG_TERM => array(
+		$propertyDefinitions = [
+			self::SG_TERM => [
 				'label' => SG_PROP_GLT,
 				'type'  => '_txt',
 				'alias' => wfMessage( 'semanticglossary-prop-glt' )->text()
-			),
-			self::SG_DEFINITION => array(
+			],
+			self::SG_DEFINITION => [
 				'label' => SG_PROP_GLD,
 				'type'  => '_txt',
 				'alias' => wfMessage( 'semanticglossary-prop-gld' )->text()
-			),
-			self::SG_LINK => array(
+			],
+			self::SG_LINK => [
 				'label' => SG_PROP_GLL,
 				'type'  => '_txt',
 				'alias' => wfMessage( 'semanticglossary-prop-gll' )->text()
-			),
-			self::SG_STYLE => array(
+			],
+			self::SG_STYLE => [
 				'label' => SG_PROP_GLS,
 				'type'  => '_txt',
 				'alias' => wfMessage( 'semanticglossary-prop-gls' )->text()
-			)
-		);
+			]
+		];
 
 		return $this->registerPropertiesFromList( $propertyDefinitions );
 	}
@@ -72,7 +72,7 @@ class PropertyRegistrationHelper {
      * @param string[][] $propertyList
      * @return bool
      */
-    protected function registerPropertiesFromList( array $propertyList ) {
+    protected function registerPropertiesFromList( array $propertyList ): bool {
 
 		foreach ( $propertyList as $propertyId => $definition ) {
 

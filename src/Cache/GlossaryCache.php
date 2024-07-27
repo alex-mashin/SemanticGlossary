@@ -35,7 +35,7 @@ class GlossaryCache {
 	 *
 	 * @return BagOStuff
 	 */
-	public function getCache() {
+	public function getCache(): BagOStuff {
 
 		if ( $this->cache === null ) {
 			$this->cache = ObjectCache::getInstance( self::getCacheType() );
@@ -51,8 +51,8 @@ class GlossaryCache {
 	 *
 	 * @return string
 	 */
-	public function getKeyForSubject( DIWikiPage $subject ) {
-		return  $this->getCache()->makeKey( 'ext', 'semanticglossary', $subject->getSerialization() );
+	public function getKeyForSubject( DIWikiPage $subject ): string {
+		return $this->getCache()->makeKey( 'ext', 'semanticglossary', $subject->getSerialization() );
 	}
 
 	/**
@@ -60,8 +60,8 @@ class GlossaryCache {
 	 *
 	 * @return string
 	 */
-	public function getKeyForLingo() {
-        return  $this->getCache()->makeKey( 'ext', 'lingo', 'lingotree' );
+	public function getKeyForLingo(): string {
+        return $this->getCache()->makeKey( 'ext', 'lingo', 'lingotree' );
 	}
 
 	/**
@@ -69,13 +69,8 @@ class GlossaryCache {
 	 *
 	 * @return string
 	 */
-	public function getCacheType() {
-
-		if ( isset( $GLOBAL['wgexLingoCacheType'] ) && $GLOBAL['wgexLingoCacheType'] !== null ) {
-			return $GLOBAL['wgexLingoCacheType'];
-		}
-
-		return $GLOBALS['wgMainCacheType'];
+	public function getCacheType(): string {
+		return ( $GLOBAL['wgexLingoCacheType'] ?? $GLOBALS['wgMainCacheType'] ) ?: $GLOBALS['wgMainCacheType'];
 	}
 
 }

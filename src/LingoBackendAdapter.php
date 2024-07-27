@@ -32,7 +32,7 @@ class LingoBackendAdapter extends Backend {
 	 * @param MessageLog|null &$messages
 	 * @param ElementsCacheBuilder|null $elementsCacheBuilder
 	 */
-	public function __construct( MessageLog &$messages = null, ElementsCacheBuilder $elementsCacheBuilder = null ) {
+	public function __construct( ?MessageLog $messages = null, ?ElementsCacheBuilder $elementsCacheBuilder = null ) {
 		parent::__construct( $messages );
 		$this->elementsCacheBuilder = $elementsCacheBuilder;
 
@@ -55,7 +55,7 @@ class LingoBackendAdapter extends Backend {
 	 */
 	public function next() {
 
-		if ( $this->elements === array() ) {
+		if ( count( $this->elements ) === 0 ) {
 			$this->elements = $this->elementsCacheBuilder->getElements();
 		}
 

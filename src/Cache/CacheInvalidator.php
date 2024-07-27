@@ -31,17 +31,15 @@ class CacheInvalidator {
 	 */
 	private static $instance = null;
 
-	/**
-	 * @var GlossaryCache
-	 */
-	private $cache = null;
+	/** @var GlossaryCache $glossaryCache. */
+	private $glossaryCache;
 
 	/**
 	 * @since 1.0
 	 *
 	 * @return CacheInvalidator
 	 */
-	public static function getInstance() {
+	public static function getInstance(): CacheInvalidator {
 
 		if ( self::$instance === null ) {
 
@@ -78,7 +76,7 @@ class CacheInvalidator {
 	 *
 	 * @return boolean
 	 */
-	public function invalidateCacheOnStoreUpdate( Store $store, SemanticData $semanticData = null ) {
+	public function invalidateCacheOnStoreUpdate( Store $store, SemanticData $semanticData = null ): bool {
 
 		if ( $semanticData === null ) {
 			return false;
@@ -103,7 +101,7 @@ class CacheInvalidator {
 	 *
 	 * @return boolean
 	 */
-	public function invalidateCacheOnPageDelete( Store $store, DIWikiPage $subject, $purgeLingo = true ) {
+	public function invalidateCacheOnPageDelete( Store $store, DIWikiPage $subject, bool $purgeLingo = true ): bool {
 
 		$this->matchSubobjectsToSubject( $store, $subject );
 		$this->purgeCache( $subject );
@@ -122,7 +120,7 @@ class CacheInvalidator {
 	 *
 	 * @return boolean
 	 */
-	public function invalidateCacheOnPageMove( LinkTarget $title ) {
+	public function invalidateCacheOnPageMove( LinkTarget $title ): bool {
 		$this->purgeCache( DIWikiPage::newFromText( $title->getDBkey(), $title->getNamespace() ));
 		return true;
 	}
@@ -167,7 +165,7 @@ class CacheInvalidator {
 			$dataComparator->compareForProperty( PropertyRegistrationHelper::SG_STYLE );
 	}
 
-	private function purgeCache( DIWikiPage $subject ) {
+	private function purgeCache( DIWikiPage $subject ): bool {
 
 		$this->glossaryCache->getCache()->delete(
 			$this->glossaryCache->getKeyForSubject( $subject )

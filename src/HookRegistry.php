@@ -17,7 +17,7 @@ class HookRegistry {
 	/**
 	 * @var array
 	 */
-	private $handlers = array();
+	private $handlers = [];
 
 	/**
 	 * @since 1.0
@@ -33,7 +33,7 @@ class HookRegistry {
 	 *
 	 * @return boolean
 	 */
-	public function isRegistered( $name ) {
+	public function isRegistered( $name ): bool {
 		return Hooks::isRegistered( $name );
 	}
 
@@ -42,7 +42,7 @@ class HookRegistry {
 	 *
 	 * @param string $name
 	 *
-	 * @return Callable|false
+	 * @return callable|false
 	 */
 	public function getHandlerFor( $name ) {
 		return isset( $this->handlers[$name] ) ? $this->handlers[$name] : false;
@@ -62,7 +62,7 @@ class HookRegistry {
 		/**
 		 * @see https://github.com/SemanticMediaWiki/SemanticMediaWiki/blob/master/docs/technical/hooks.md
 		 */
-		$this->handlers['SMW::Property::initProperties'] = function ( $propertyRegistry ) {
+		$this->handlers['SMW::Property::initProperties'] = static function ( PropertyRegistry $propertyRegistry ): bool {
 
 			$propertyRegistrationHelper = new PropertyRegistrationHelper( $propertyRegistry );
 			return $propertyRegistrationHelper->registerProperties();
@@ -74,7 +74,7 @@ class HookRegistry {
 		 *
 		 * @since 1.0
 		 */
-		$this->handlers['SMWStore::updateDataBefore'] = function ( $store, $semanticData ) {
+		$this->handlers['SMWStore::updateDataBefore'] = static function ( Store $store, SemanticData $semanticData ): bool {
 			return \SG\Cache\CacheInvalidator::getInstance()->invalidateCacheOnStoreUpdate( $store, $semanticData );
 		};
 
@@ -83,7 +83,7 @@ class HookRegistry {
 		 *
 		 * @since 1.0
 		 */
-		$this->handlers['SMW::SQLStore::AfterDeleteSubjectComplete'] = function ( $store, $title ) {
+		$this->handlers['SMW::SQLStore::AfterDeleteSubjectComplete'] = static function ( Store $store, Title $title ): bool {
 			return \SG\Cache\CacheInvalidator::getInstance()->invalidateCacheOnPageDelete(
 				$store,
 				DIWikiPage::newFromTitle( $title )
@@ -95,15 +95,10 @@ class HookRegistry {
 		 *
 		 * @since 1.0
 		 */
-		if ( version_compare( MW_VERSION, "1.35.0", "<" ) ) {
-			$this->handlers['TitleMoveComplete'] = function ( &$old_title ) {
-				return \SG\Cache\CacheInvalidator::getInstance()->invalidateCacheOnPageMove( $old_title );
-			};
-		} else {
-			$this->handlers['PageMoveComplete'] = function ( LinkTarget $old_title ) {
-				return \SG\Cache\CacheInvalidator::getInstance()->invalidateCacheOnPageMove( $old_title );
-			};
-		}
+		$this->handlers[version_compare( MW_VERSION, "1.35.0", "<" ) ? 'TitleMoveComplete' : 'PageMoveComplete'] =
+		static function ( LinkTarget $old_title ): bool {
+			return \SG\Cache\CacheInvalidator::getInstance()->invalidateCacheOnPageMove( $old_title );
+		};
 	}
 
 }

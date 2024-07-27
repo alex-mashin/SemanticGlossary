@@ -46,7 +46,7 @@ class PropertyRegistrationHelperTest extends \PHPUnit_Framework_TestCase {
 			->expects( $this->exactly( 4 ) )
 			->method( 'registerPropertyAlias' );
 
-		
+
 		$propertyRegistrationHelper = new PropertyRegistrationHelper( $propertyRegistry );
 
 		$this->assertTrue(
@@ -60,7 +60,7 @@ class PropertyRegistrationHelperTest extends \PHPUnit_Framework_TestCase {
 	 * @param string $id
 	 * @param string $label
 	 */
-	public function testRegisteredPropertyById( $id, $label ) {
+	public function testRegisteredPropertyById( string $id, string $label ) {
 
 		$property = new DIProperty( $id );
 

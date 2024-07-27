@@ -67,13 +67,7 @@ class SemanticDataComparatorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function propertyIdProvider() {
-
-		$provider = array(
-			array( 'Foo' ),
-			array( '__Foo' )
-		);
-
-		return $provider;
+		return [ [ 'Foo' ], [ '__Foo' ] ];
 	}
 
 }

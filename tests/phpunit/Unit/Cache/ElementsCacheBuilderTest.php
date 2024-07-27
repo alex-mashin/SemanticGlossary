@@ -97,7 +97,7 @@ class ElementsCacheBuilderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	protected function assertLingoElement( $term, $definition, $link, $style, $result ) {
+	protected function assertLingoElement( string $term, string $definition, ?string $link, ?string $style, array $result ) {
 
 		$this->assertEquals( $term, $result[ Element::ELEMENT_TERM ] );
 		$this->assertEquals( $definition, $result[ Element::ELEMENT_DEFINITION ] );
